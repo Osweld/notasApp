@@ -7,4 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'notasApp';
+  url:string = "https://notasoswelddev.herokuapp.com";
 }
