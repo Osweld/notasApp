@@ -6,7 +6,9 @@ import { ErrorPageComponent } from './shared/error-page/error-page.component';
 const routes: Routes = [
   {
     path:'auth',
-    loadChildren:()=> import('./auth/auth.module').then(m => m.AuthModule)
+    loadChildren:()=> import('./auth/auth.module').then(m => m.AuthModule),
+    canActivate:[AuthGuard],
+    canLoad:[AuthGuard]
   },{
     path:'',
     loadChildren:()=> import('./notas/notas.module').then(m => m.NotasModule),

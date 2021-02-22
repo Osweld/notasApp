@@ -1,0 +1,117 @@
+<div class="min-h-screen flex items-center justify-center bg-indigo-300">
+  <div class="max-w-3xl  w-full bg-gray-50  shadow-lg rounded">
+    <div class="my-4">
+      <div>
+        <svg class="w-full h-12 fill-current text-indigo-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+          viewBox="0 0 24 24">
+          <path
+            d="M13.507,2.138c-0.367-0.215-0.832-0.175-1.155,0.102L4.196,9.197c-2.924,2.924-2.924,7.682,0,10.606 c1.461,1.461,3.38,2.192,5.3,2.192c1.924,0,3.85-0.734,5.317-2.202l6.903-7.096c0.28-0.288,0.36-0.716,0.204-1.086 C21.765,11.241,21.402,11,21,11h-3.301l4.175-7.514c0.217-0.391,0.148-0.877-0.167-1.193c-0.315-0.316-0.803-0.385-1.192-0.167 l-7.11,3.95l0.576-2.879C14.064,2.778,13.874,2.354,13.507,2.138z M14,14.5c0,2.485-2.015,4.5-4.5,4.5S5,16.985,5,14.5 c0-1.57,0.807-2.949,2.025-3.754C7.015,10.83,7,10.913,7,11c0,1.104,0.896,2,2,2s2-0.896,2-2c0-0.274-0.056-0.535-0.155-0.772 C12.669,10.802,14,12.486,14,14.5z">
+          </path>
+        </svg>
+      </div>
+      <h2 class="text-center font-extrabold text-gray-700  text-3xl">NotasApp</h2>
+    </div>
+    <div class="p-1 m-1 bg-red-500 text-center rounded-sm" *ngIf="error">
+      <span class="text-gray-50 font-bold">{{message}}</span>
+    </div>
+    <div>
+      <form [formGroup]="myForm" (ngSubmit)="registration()" class="p-3">
+        <div class="flex flex-col sm:flex-row">
+
+          <div class="flex-1 px-1">
+
+            <div class="form-control">
+              <label class="form-label" for="name">Nombre:</label>
+              <input type="text" class="form-input" formControlName="name" name="name"
+                placeholder="Introduce tu nombre">
+              <span *ngIf="validFields('name')" class="form-error">El nombre no puede quedar vacio</span>
+            </div>
+
+              <div class="form-control">
+                <label class="form-label" for="lastname">Apellido:</label>
+                <input type="text" class="form-input" formControlName="lastname" name="lastname"
+                  placeholder="Introduce tu apellido">
+                <span *ngIf="validFields('lastname')" class="form-error">El apellido no puede quedar vacio</span>
+              </div>
+
+            <div class="form-control flex justify-center ">
+              <label class="form-label mt-2" for="birthdate">Fecha de nacimiento:</label>
+              <input type="date" class="form-input " formControlName="birthdate" name="birthdate">
+              <span *ngIf="validFields('birthdate')" class="form-error">{{birthdateErrorMessage()}}</span>
+            </div> 
+            <div class="form-control">
+                <label class="form-label mt-2" for="gender">Genero:</label>
+                <div class="flex flex-nowrap h-full my-2 ">
+                    <div class="flex-1 flex items-center justify-center">
+                        <input type="radio" class="form-radio" formControlName="gender" name="gender" value="M">
+                        <label class="form-radio-label">Masculino</label>
+                    </div>
+            
+                    <div class="flex-1 flex items-center justify-center">
+                        <input type="radio" class="form-radio" formControlName="gender" name="gender" value="F">
+                        <label class="form-radio-label">Femenino</label>
+                    </div>
+                    
+                </div>  
+                <span *ngIf="validFields('gender')" class="form-error">El genero no puede quedar vacio</span>
+              </div>
+
+          </div>
+          <div class="flex-1 px-1">
+            <div class="form-control">
+              <label class="form-label" for="username">Usuario:</label>
+              <input type="text" class="form-input" formControlName="username" name="username"
+                placeholder="Introduce tu nombre de usuario">
+              <span *ngIf="validFields('username')" class="form-error">{{UserErrorMessage('username')}}</span>
+  
+              <div class="form-control">
+                <label class="form-label" for="password">Contraseña:</label>
+                <input type="password" class="form-input" formControlName="password" name="password"
+                  placeholder="Introduce tu contraseña">
+                <span *ngIf="validFields('password')" class="form-error">{{UserErrorMessage('password')}}</span>
+              </div>
+  
+              <div class="form-control">
+                  <label class="form-label" for="email">Email:</label>
+                  <input type="email" class="form-input" formControlName="email" name="email"
+                    placeholder="Introduce tu contraseña">
+                  <span *ngIf="validFields('email')" class="form-error">{{emailErrorMessage()}}</span>
+                </div>
+            </div>
+
+            <div class="form-control">
+                <label class="form-label" for="career">Carrera:</label>
+                <select class="form-input" formControlName="career">
+                    <option value="">  -- Seleccionar Carrera -- </option>
+                    <option *ngFor="let career of careers" value="{{career.id}}">{{career.career}}</option>
+                </select>
+                <span *ngIf="validFields('career')" class="form-error">La carrera no puede quedar vacia</span>
+              </div>
+          </div>
+        </div>
+    
+        <div *ngIf="loading" class="flex justify-center items-center">
+          <div class="lds-ellipsis ">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+
+        <div class="form-control justify-center items-center mt-2">
+          <button class="form-submit">Registrarse</button>
+        </div>
+      </form>
+    </div>
+    <div class="flex justify-center items-center px-2">
+      <hr class="border flex-1 border-indigo-400">
+      <span class="m-3 text-gray-800 text-lg">¿Ya posee cuenta?</span>
+      <hr class="flex-1 border border-indigo-400">
+
+    </div>
+    <div class="w-full flex p-3 justify-center items-center mt-2">
+      <button routerLink="../login" class="form-submit " [disabled]="disabledSubmit">Iniciar sesion</button>
+    </div>
+  </div>
+</div>
