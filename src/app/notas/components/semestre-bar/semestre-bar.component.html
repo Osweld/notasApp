@@ -1,0 +1,13 @@
+<div class="w-full bg-indigo-600 shadow-md text-gray-100 text-center text-lg p-2 rounded">
+    <div >
+        <button class="border-2 border-dotted border-gray-100 px-10 py-1 hover:bg-indigo-400" (click)=" createSemester()">Añadir Ciclo</button>
+    </div>
+    <div>
+        <ul class="p-4">
+            <li *ngFor="let semester of semesters" 
+            class="hover:bg-indigo-800 px-2 py-1 cursor-pointer"
+            (click)="getSubjects(semester)">
+                Ciclo {{semester.year.year}} - {{semester.cycle.cycle}} </li>
+        </ul>
+    </div>
+</div>

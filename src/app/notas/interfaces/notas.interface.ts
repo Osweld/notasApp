@@ -34,3 +34,66 @@ export interface Person {
     gender:string;
     career?:Career;
 }
+
+export interface Cycle {
+    id?:number;
+    cycle:string;
+    createAt?:Date
+}
+
+export interface Year {
+    id?:number;
+    year:number;
+    createAt?:Date
+}
+
+export interface Semester{
+    id?:number;
+    user?:User;
+    cycle:Cycle;
+    year:Year;
+}
+
+export interface Subject{
+    id?:number;
+    subject?:string;
+    createAt?:Date;
+}
+
+export interface SubjectsPerCareer{
+    id?:number;
+    createAt?:Date;
+    career?:Career;
+    cycle?:Cycle;
+    subject?:Subject;
+}
+
+export interface SubjectsPerSemester{
+    id?:number;
+    createAt?:Date;
+    semester?:Semester;
+    subjectsPerCareer?:SubjectsPerCareer;
+}
+
+export interface Activity{
+    id?:number;
+    activity?:string;
+    createAt?:Date;
+}
+
+export interface ActivityNumber{
+    id?:number;
+    number?:number;
+    createAt?:Date;
+}
+
+export interface Assignment{
+    id?:number;
+    percent?:number;
+    score?:number;
+    finish?:boolean;
+    createAt?:Date;
+    activity:Activity;
+    activityNumber:ActivityNumber;
+    subjectsPerSemester:SubjectsPerSemester;
+}

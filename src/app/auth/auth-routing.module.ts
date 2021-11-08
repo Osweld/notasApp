@@ -5,16 +5,19 @@ import { RegistroComponent } from './pages/registro/registro.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { ActiveAccountComponent } from './pages/active-account/active-account.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
+import { AuthComponent } from './pages/auth/auth.component';
+import { ResendEmailComponent } from './pages/resend-email/resend-email.component';
 
 const routes: Routes = [
   {
-    path:'',
+    path:'', component:AuthComponent,
     children:[
       {path:'login',component:LoginComponent},
       {path:'registro',component:RegistroComponent},
       {path:'forgot-password',component:ForgotPasswordComponent},
-      {path:'active-account',component:ActiveAccountComponent},
-      {path:'reset-password',component:ResetPasswordComponent},
+      {path:'active-account/:token',component:ActiveAccountComponent},
+      {path:'reset-password/:token',component:ResetPasswordComponent},
+      {path:'resend-email',component:ResendEmailComponent},
       {path:'**',redirectTo:'login'}
     ]
   }

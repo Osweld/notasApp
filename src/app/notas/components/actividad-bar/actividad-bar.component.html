@@ -1,0 +1,28 @@
+<div class="flex justify-center mb-5">
+    <button (click)="create()" class="agregar-button">Agregar Actividad</button>
+</div>
+<div class="flex justify-center items-center rounded shadow">
+    <table class="divide-y divide-gray-200 min-w-full">
+        <thead class="bg-gray-100 text-gray-800 font-medium">
+            <tr class="text-center">
+                <td class="py-3">Actividad</td>
+                <td>Porcentaje</td>
+                <td>Nota</td>
+                <td>Estado</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody class="bg-gray-50 text-center text-gray-700">
+            <tr *ngFor="let assignment of assignments">
+                <td>{{assignment.activity.activity | titlecase}} - {{assignment.activityNumber.number}}</td>
+                <td class="font-bold">{{assignment.percent}}%</td>
+                <td class="font-bold">{{assignment.score}}</td>
+                <td [ngClass]="assignment.finish ? 'text-green-500':'text-red-400'">
+                    {{(assignment.finish ? 'Completo':'Incompleto')}}</td>
+                <td><button (click)="edit(assignment)" class="editar-button">Editar</button></td>
+                <td><button (click)="delete(assignment)" class="eliminar-button">Eliminar</button></td>
+            </tr> 
+        </tbody>
+    </table>
+</div>

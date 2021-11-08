@@ -17,11 +17,11 @@ export class RegistroComponent implements OnInit {
 
   
   userForm!:UserRegistration;
-  error: boolean = false;
+  activeMessage: boolean = false;
   message: string = '';
+  ok:boolean = true;
   loading: boolean = false;
   careers: Career[] = [];
-  disabledSubmit: boolean = false;
   user!:User;
 
   
@@ -92,8 +92,6 @@ export class RegistroComponent implements OnInit {
       return;
     }
 
-    this.disabledSubmit = true;
-
     this.userForm = this.myForm.value;
     this.user = {
       username: this.userForm.username,
@@ -108,16 +106,26 @@ export class RegistroComponent implements OnInit {
     }
 
     this.loading = true;
-    this.error = false;
+
     this.authService.registration(this.user,this.userForm.career)
       .subscribe(resp => {
+        this.authService.sendActiveAccountMail(resp.user.person?.email || '')
+        .subscribe(resp =>{
+          console.log("correo enviado");
+          console.log(resp)
+        })
         console.log(resp.user);
-        this.disabledSubmit = false;
-      }, (error: HttpErrorResponse) => {
-        this.message = error.error.message
-        this.error = true;
-        this.disabledSubmit = false;
         this.loading = false;
+        this.ok = true
+        this.message = "Cuenta creada exitosamente, revise su email para activar su cuenta"
+        this.activeMessage = true;
+        this.myForm.reset();
+      }, (error: HttpErrorResponse) => {
+        this.ok = false
+        this.message = error.error.error
+        this.activeMessage = true;
+        this.loading = false;
+        
       })
 
   }

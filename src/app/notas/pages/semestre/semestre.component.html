@@ -1,1 +1,12 @@
-<p>semestre works!</p>
+<div class="flex flex-nowrap">
+  <app-semestre-bar (semester)="getSubjectsPerSemester($event)" class="w-1/3 px-8 py-4"></app-semestre-bar>
+
+  <div class="w-2/3">
+    <div *ngIf="!semester"  class="p-10 w-full flex justify-center">
+      <h3 class="text-5xl text-gray-500">Seleccione una materia</h3>
+    </div>
+     <app-materia-bar *ngIf="semester" [semester]="semester"></app-materia-bar>
+  </div>
+</div>
+<app-agregar-semestre></app-agregar-semestre>
+<app-agregar-materia *ngIf="semester" [semester]="semester"></app-agregar-materia>

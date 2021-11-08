@@ -19,9 +19,9 @@ export class AuthGuard implements CanActivate, CanLoad {
       return this.authService.getLocalStorageToken().pipe(
         tap(auth => {
           if(!auth){
+            console.log(auth)
             this.router.navigate(['./auth/login']);
-          }else{
-            //this.router.navigate(['./inicio']);
+            
           }
         })
       )
@@ -33,9 +33,8 @@ export class AuthGuard implements CanActivate, CanLoad {
       return this.authService.getLocalStorageToken().pipe(
         tap(auth => {
           if(!auth){
+            console.log(auth)
             this.router.navigate(['./auth/login']);
-          }else{
-            //this.router.navigate(['./inicio'])
           }
         })
       )

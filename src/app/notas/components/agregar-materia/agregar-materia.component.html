@@ -1,0 +1,25 @@
+<div class="top-0  absolute z-10 min-w-full h-screen bg-gray-800 opacity-75 flex items-center justify-center"
+[ngClass]=" activeCreateSubject ? 'left-0':'-left-full'">
+  <div class="bg-gray-50 rounded opacity-100">
+  <div class="flex justify-end m-3 ">
+    <button class="text-red-500 text-2xl cursor-pointer" (click)="close();">X</button>
+  </div>
+  <div *ngIf="showMesage" class="bg-red-500 text-center">
+    <span class="font-semibold text-gray-50">{{message}}</span>
+  </div>
+  <form class="px-10" (ngSubmit)="selectSubject()" [formGroup]="myForm">
+    <div  class="form-control">
+        <label for="cycle">Ciclo:</label>
+        <select name="cycle" class="form-input" formControlName="subject">
+            <option value=""> -- Seleccione el ciclo -- </option>
+            <option *ngFor="let subject of subjectsPerCareer" [value]="subject.id">{{subject.subject!.subject}}</option>
+        </select>
+        <span *ngIf="ValidatorsForm('cycle')" class="text-sm text-red-500">El campo no puede quedar vacio</span>
+      </div>
+      <div class="my-10">
+        <button type="submit" class="form-submit">Agregar Ciclo</button>
+      </div>
+  </form>
+</div>
+</div>
+

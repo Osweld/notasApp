@@ -9,6 +9,15 @@ export interface LoginResponse {
     token: string;
 }
 
+export interface Email{
+    email:string;
+}
+
+export interface Password{
+    password:string;
+    password2:string;
+}
+
 export interface User {
     password:              null;
     username:              string;

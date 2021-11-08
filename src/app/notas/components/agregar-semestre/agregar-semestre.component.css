@@ -1,0 +1,7 @@
+.semester-modal-active{
+    @apply top-0 left-0 absolute z-10 min-w-full h-screen bg-gray-800 opacity-75 flex items-center justify-center
+}
+
+.semester-modal-desactive{
+    @apply top-0 left-0 absolute z-10 min-w-full h-screen bg-gray-800 opacity-75 flex items-center justify-center
+}

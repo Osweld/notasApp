@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ValidatorService } from 'src/app/shared/Validators/validator.service';
+import { Password } from '../../interfaces/auth.interface';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -10,10 +11,13 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./reset-password.component.css']
 })
 export class ResetPasswordComponent implements OnInit {
+
   message: string = '';
   loading: boolean = false;
-  error: boolean = false
-  disabledSubmit: boolean = false;
+  activeMessage: boolean = false
+  ok:boolean = false;
+  token:string = '';
+  password!:Password;
 
   myForm: FormGroup = this.fb.group({
     password: ['', [Validators.required,Validators.minLength(6),Validators.maxLength(20)]],
@@ -23,10 +27,12 @@ export class ResetPasswordComponent implements OnInit {
   })
 
   constructor(private fb: FormBuilder, private vs: ValidatorService, private router: Router,
-    private authService: AuthService) { }
+    private authService: AuthService,private route:ActivatedRoute) { }
 
   ngOnInit(): void {
-
+    this.route.params.subscribe( ({token}) =>{
+      this.token = token;
+    })
   }
 
   validPassword(field:string) {
@@ -51,7 +57,7 @@ export class ResetPasswordComponent implements OnInit {
       return "Las contraseñas no coinciden"
     }
   }
-
+//9f2d4867-e124-4aa7-bea9-1547fec3f5b9
 
   sendEmail() {
     if (this.myForm.invalid) {
@@ -59,17 +65,23 @@ export class ResetPasswordComponent implements OnInit {
       return;
     }
     this.loading = true;
-    this.disabledSubmit = true;
-    this.authService.resetPasswordToken(this.myForm.value)
+    
+    this.password = this.myForm.value
+    this.authService.resetPasswordToken(this.token,this.password)
       .subscribe(resp => {
+        this.message = "La contraseña a sido cambiada exitosamente"
         this.loading = false;
+        this.activeMessage = true;
+        this.ok = true
+        this.myForm.reset();
         console.log(resp);
 
       }, error => {
         console.log(error);
-        this.message = error.error.message
-        this.error = true;
+        this.message = error.error.error
+        this.activeMessage = true;
         this.loading = false;
+        this.ok = false
       })
   }
 

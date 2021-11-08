@@ -13,6 +13,8 @@ module.exports = {
       extend: {
         opacity: ['disabled'],
         backgroundColor: ['disabled'],
+        backgroundColor: ['checked'],
+        borderColor: ['checked'],
       },
     },
     plugins: [],

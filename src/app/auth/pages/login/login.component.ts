@@ -1,13 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 
-interface User {
-  username: string;
-  password: string;
-}
 
 @Component({
   selector: 'app-login',
@@ -16,17 +12,20 @@ interface User {
 })
 export class LoginComponent implements OnInit {
 
-  error: boolean = false;
+  activeMessage: boolean = false;
   message: string = '';
   loading:boolean = false;
-  disabledSubmit: boolean = false;
+  ok:boolean = true;
+  activeAccount:boolean = false;
+
 
   myForm: FormGroup = this.fb.group({
     username: ['', [Validators.required]],
     password: ['', [Validators.required]]
   })
 
-  constructor(private authService: AuthService, private fb: FormBuilder,private router:Router) { }
+  constructor(private authService: AuthService, private fb: FormBuilder,private router:Router) { 
+  }
 
   ngOnInit(): void {
   }
@@ -40,18 +39,22 @@ export class LoginComponent implements OnInit {
       this.myForm.markAllAsTouched();
       return;
     }
-    this.disabledSubmit = true;
+ 
     this.loading = true;
-    this.error = false;
+    this.activeMessage = false;
+    this.activeAccount = false;
     this.authService.login(this.myForm.value)
       .subscribe(resp => {
         localStorage.setItem('token',resp.token);
         this.router.navigate(['./inicio']);
       }, (error: HttpErrorResponse) => {
-        this.message = error.error.message
-        this.error = true;
+       this.message = error.error.error;
+       if(error.error.code === 1){
+         this.activeAccount = true;
+       }
+        this.activeMessage = true;
+        this.ok = false;
         this.loading = false;
-        this.disabledSubmit = false;
       })
     
   }

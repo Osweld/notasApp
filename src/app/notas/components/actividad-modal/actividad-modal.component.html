@@ -1,0 +1,50 @@
+<div class="absolute top-0 z-10 bg-gray-800 w-full min-h-screen opacity-50"
+[ngClass]="activeModal ? 'left-0':'-left-full'">
+</div>
+<div class="absolute top-0 z-20  w-full min-h-screen flex justify-center items-center"
+[ngClass]="activeModal ? 'left-0':'-left-full'">
+  <div class="bg-gray-50 border border-gray-200 rounded w-full max-w-sm">
+    <div>
+      <div class="flex justify-end">
+        <button class="text-red-500 text-2xl cursor-pointer px-2 hover:bg-red-500 hover:text-gray-50 " (click)="close()">X</button>
+      </div>
+    </div>
+    <div *ngIf="error" class=" mx-1 bg-red-500 text-center  text-white font-bold">{{message}}</div>
+    <form class="mx-5 mb-5" (ngSubmit)="saveAssignment()" [formGroup]="myForm">
+      <div class="form-control" formGroupName="activity">
+        <label class="form-label">Tipo de Actividad:</label>
+        <select class="form-input" name="activity" formControlName="id">
+          <option value="" > -- Seleccionar Actividad --</option>
+          <option *ngFor="let activity of activities" value="{{activity.id}}">{{activity.activity | titlecase}}</option>
+        </select>
+        <small *ngIf="isInvalid('activity.id')" class="text-sm text-red-500">Debe seleccionar una actividad</small>
+      </div>
+      <div class="form-control" formGroupName="activityNumber">
+        <label class="form-label">Numero de Actividad:</label>
+        <select class="form-input" name="activityNumber" formControlName="id">
+          <option value=""> -- Seleccionar Actividad --</option>
+          <option *ngFor="let activityNumber of activityNumbers" value="{{activityNumber.id}}">{{activityNumber.number}}
+          </option>
+        </select>
+        <small *ngIf="isInvalid('activityNumber.id')" class="text-sm text-red-500">Debe seleccionar el numero de actividad</small>
+      </div>
+      <div class="form-control">
+        <label class="form-label">Porcentaje:</label>
+        <input type="number" class="form-input" name="percent" formControlName="percent">
+        <small *ngIf="isInvalid('percent')" class="text-sm text-red-500">{{isInvalidPercentText()}}</small>
+      </div>
+      <div class="form-control">
+        <label class="form-label">Nota: <span class="text-xs text-gray-800">   Dejar en 0 si todavia no la ha realizado</span></label>
+        <input type="number" class="form-input" name="score" formControlName="score">
+        <small *ngIf="isInvalid('score')" class="text-sm text-red-500">{{isInvalidScoreText()}}</small>
+      </div>
+      <div class="form-control">
+        <label class="form-label">Actividad Completada:</label>
+        <input type="checkbox" class=" h-5 w-5 m-1 text-indigo-600" name="finish" formControlName="finish">
+      </div>
+      <div>
+        <button class="form-submit">Agregar Actividad</button>
+      </div>
+    </form>
+  </div>
+</div>

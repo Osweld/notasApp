@@ -1,0 +1,7 @@
+.materia{
+    @apply bg-gray-100 text-indigo-600 px-10 py-2 font-semibold text-xl cursor-pointer
+}
+
+.materia:hover{
+    @apply bg-gray-200 shadow
+}

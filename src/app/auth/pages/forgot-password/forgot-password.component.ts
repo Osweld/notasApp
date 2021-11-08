@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ValidatorService } from '../../../shared/Validators/validator.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { Email } from '../../interfaces/auth.interface';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-forgot-password',
@@ -13,8 +15,9 @@ export class ForgotPasswordComponent implements OnInit {
 
   message:string ='';
   loading:boolean=false;
-  error:boolean=false
-  disabledSubmit:boolean = false;
+  activeMessage:boolean=false
+  ok:boolean = false;
+  email!:Email;
 
   myForm:FormGroup = this.fb.group({
     email:['',[Validators.required,Validators.pattern(this.vs.emailPattern)]]
@@ -47,18 +50,21 @@ export class ForgotPasswordComponent implements OnInit {
       return;
     }
     this.loading = true;
-    this.disabledSubmit = true;
-    this.authService.sendResetPassword(this.myForm.value)
+    this.email =this.myForm.value
+    this.authService.sendResetPassword(this.email.email)
     .subscribe(resp =>{
+      this.message = 'Email enviado correctamente';
+      this.ok = true;
+      this.activeMessage = true;
       this.loading = false;
       console.log(resp);
       
-    },error => {
+    },(error:HttpErrorResponse) => {
       console.log(error);
       this.message = error.error.message
-      this.error = true;
+      this.activeMessage = true;
       this.loading = false;
-      this.disabledSubmit = false;
+      this.ok = false;
     })
   }
 

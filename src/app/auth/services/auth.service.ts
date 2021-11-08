@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { User } from 'src/app/notas/interfaces/notas.interface';
 import { environment } from 'src/environments/environment';
-import { Auth, LoginResponse, TokenRefresh} from '../interfaces/auth.interface';
+import { Auth, LoginResponse, TokenRefresh, Password } from '../interfaces/auth.interface';
 import { RegistrationResponse } from '../../notas/interfaces/notaResponse.interface';
 
 @Injectable({
@@ -32,13 +32,27 @@ export class AuthService {
     return this.http.get(url);
   }
 
-  resetPasswordToken(token:string){
+  resetPasswordToken(token:string,password:Password){
     const url = `${this.baseUrl}/api/token/resetpassword/${token}`
+    return this.http.put(url,password);
+  }
+
+  sendActiveAccountMail(email:string){
+    const url = `${this.baseUrl}/api/token/activeaccount/${email}`
+    return this.http.get(url);
+  }
+
+  activeAccountToken(token:string){
+    const url = `${this.baseUrl}/api/token/activeaccount/${token}`
     return this.http.put(url,token);
   }
 
+
+
+  //Metodos de token 
+
   getLocalStorageToken(): Observable<boolean> {
-    if (!localStorage.getItem('token')) return of(false);
+    if (!this.existToken()) return of(false);
     return this.RefreshToken();
   }
 
@@ -48,8 +62,18 @@ export class AuthService {
 
    this.http.get<TokenRefresh>(url, { headers })
     .subscribe(resp =>  localStorage.setItem('token',resp.token),_ =>localStorage.clear())
-    if (!localStorage.getItem('token')) return of(false);
+    if (!this.existToken()) return of(false);
+    
     return of(true)
+  }
+
+
+  existToken():boolean{
+    if (!localStorage.getItem('token')){
+     return false
+    }else{
+      return true
+    }
   }
 
 }

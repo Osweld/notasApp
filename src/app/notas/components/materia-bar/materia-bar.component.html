@@ -1,0 +1,8 @@
+<div class="w-full  flex flex-col justify-center">
+    <div class="flex justify-center pt-5">
+        <button (click)="createSubject()" class="rounded px-16 py-3 font-bold text-lg text-gray-50 bg-indigo-600 hover:bg-indigo-400">Añadir materia</button>
+    </div>
+    <ul *ngIf="Subjects.length > 0" class="w-full space-y-3 p-10">
+        <li *ngFor="let subject of Subjects" class="materia" (click)="setSubjectId(subject.id || 0)" [routerLink]="['/actividad',subject.id]">{{subject.subjectsPerCareer!.subject!.subject}}</li>
+    </ul>
+</div>
